@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: task-analyzer
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn task_analyzer.wsgi:application"
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
