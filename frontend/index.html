@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Analyzer</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Smart Task Analyzer</h1>
+            <p>Prioritize your work with intelligence.</p>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <div class="card glass">
+                    <h2>Add Task</h2>
+                    <form id="single-task-form">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" required placeholder="e.g., Fix login bug">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="due_date">Due Date</label>
+                                <input type="date" id="due_date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="estimated_hours">Est. Hours</label>
+                                <input type="number" id="estimated_hours" min="1" required placeholder="3">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="importance">Importance (1-10)</label>
+                                <input type="number" id="importance" min="1" max="10" required value="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="dependencies">Dependencies (IDs)</label>
+                                <input type="text" id="dependencies" placeholder="e.g., 1, 2">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Add to List</button>
+                    </form>
+                </div>
+
+                <div class="card glass">
+                    <h2>Bulk Input (JSON)</h2>
+                    <textarea id="bulk-input" placeholder='[{"title": "Task 1", ...}]'></textarea>
+                    <div class="actions">
+                        <button id="load-sample-btn" class="btn-secondary">Load Sample</button>
+                        <button id="analyze-btn" class="btn-primary">Analyze Tasks</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="output-section">
+                <div class="controls">
+                    <label for="sort-strategy">Sorting Strategy:</label>
+                    <select id="sort-strategy">
+                        <option value="smart">Smart Balance (Default)</option>
+                        <option value="fastest">Fastest Wins</option>
+                        <option value="impact">High Impact</option>
+                        <option value="deadline">Deadline Driven</option>
+                    </select>
+                </div>
+                
+                <div id="results-container" class="results-grid"></div>
+            </section>
+
+            <section class="viz-section">
+                <div class="card glass">
+                    <h2>Eisenhower Matrix</h2>
+                    <div class="matrix-grid">
+                        <div class="quadrant q1">
+                            <h3>Urgent & Important</h3>
+                            <div id="matrix-q1" class="q-content"></div>
+                        </div>
+                        <div class="quadrant q2">
+                            <h3>Important, Not Urgent</h3>
+                            <div id="matrix-q2" class="q-content"></div>
+                        </div>
+                        <div class="quadrant q3">
+                            <h3>Urgent, Not Important</h3>
+                            <div id="matrix-q3" class="q-content"></div>
+                        </div>
+                        <div class="quadrant q4">
+                            <h3>Neither</h3>
+                            <div id="matrix-q4" class="q-content"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass">
+                    <h2>Dependency Graph</h2>
+                    <div class="mermaid" id="dependency-graph">
+                        graph TD;
+                        Start --> End;
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true, theme: 'dark'});</script>
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
